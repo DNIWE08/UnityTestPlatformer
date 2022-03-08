@@ -6,13 +6,14 @@ public class CharacterMove : MonoBehaviour
 {
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpForce = 20f;
+    [SerializeField] private float moveSpeed = 6f;
+    [SerializeField] private float jumpForce = 750f;
     private Rigidbody2D rb;
     private bool isJumping = false;
     private bool grounded = false;
     private float moveHorizontal = 0f;
     private float groundedRadius = 0.2f;
+    private bool facingRight = true;
 
 
     // Start is called before the first frame update
@@ -49,6 +50,15 @@ public class CharacterMove : MonoBehaviour
             rb.AddForce(new Vector2(0f, jumpForce));
             grounded = false;
         }
+
+        if (moveHorizontal > 0 && !facingRight)
+        {
+            Flip();
+        }
+        else if (moveHorizontal < 0 && facingRight)
+        {
+            Flip();
+        }
     }
 
     void CheckGround()
@@ -61,5 +71,14 @@ public class CharacterMove : MonoBehaviour
                 grounded = true;
             }
         }
+    }
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 }
