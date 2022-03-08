@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterMove : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class CharacterMove : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float moveSpeed = 6f;
     [SerializeField] private float jumpForce = 750f;
+    [SerializeField] private Animator animator;
     private Rigidbody2D rb;
     private bool isJumping = false;
     private bool grounded = false;
@@ -15,21 +17,31 @@ public class CharacterMove : MonoBehaviour
     private float groundedRadius = 0.2f;
     private bool facingRight = true;
 
+    [Header("Events")]
 
-    // Start is called before the first frame update
+    [Space]
+
+    public UnityEvent OnLandEvent;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        if (OnLandEvent == null)
+        {
+            OnLandEvent = new UnityEvent();
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         moveHorizontal = Input.GetAxisRaw("Horizontal") * moveSpeed;
+        animator.SetFloat("Speed", Mathf.Abs(moveHorizontal));
 
         if (Input.GetButtonDown("Jump"))
         {
             isJumping = true;
+            animator.SetBool("isJumping", true);
         }
     }
 
@@ -69,8 +81,18 @@ public class CharacterMove : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 grounded = true;
+                if (!isJumping)
+                {
+                    OnLandEvent.Invoke();
+                }
+                
             }
         }
+    }
+
+    public void OnLanding ()
+    {
+        animator.SetBool("isJumping", false);
     }
 
     private void Flip()

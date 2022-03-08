@@ -1589,7 +1589,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.0625, y: 2}
+    oldSize: {x: 1.8333334, y: 1.7777778}
     newSize: {x: 1.375, y: 1.3333334}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1719,6 +1719,22 @@ MonoBehaviour:
   groundCheck: {fileID: 1562254886}
   moveSpeed: 6
   jumpForce: 750
+  animator: {fileID: 922782540}
+  OnLandEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 922782539}
+        m_TargetAssemblyTypeName: CharacterMove, Assembly-CSharp
+        m_MethodName: OnLanding
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &922782540
 Animator:
   serializedVersion: 3
