@@ -7,6 +7,7 @@ public class GemCollection : MonoBehaviour
 {
     [SerializeField] private Text gemText;
     [SerializeField] private AudioSource collectAudio;
+    [SerializeField] private ParticleSystem particle;
 
     public int gemCounter = 0;
 
@@ -19,6 +20,8 @@ public class GemCollection : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Gem"))
         {
+            particle.transform.position = other.transform.position;
+            particle.Play();
             collectAudio.Play();
             gemCounter++;
             gemText.text = gemCounter.ToString();

@@ -23,6 +23,18 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<CapsuleCollider2D>();
+        EventManager.onJump += IsPlayerJumpAudio;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.onJump -= IsPlayerJumpAudio;
+    }
+
+    public void IsPlayerJumpAudio()
+    {
+        jumpAudio.Play();
+        rb.AddForce(new Vector2(0f, jumpForce));
     }
 
     private void Update()
@@ -31,8 +43,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && CheckGround())
         {
-            jumpAudio.Play();
-            rb.AddForce(new Vector2(0f, jumpForce));
+            //jumpAudio.Play();
+            //rb.AddForce(new Vector2(0f, jumpForce));
+            EventManager.PlayerJump();
+            
         }
 
         AnimationController();
